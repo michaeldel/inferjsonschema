@@ -40,3 +40,17 @@ suite "object inference":
                 "y": {"type": "float"}
             }
         }
+
+    test "basic profile":
+        check infer(%* {
+            "firstName": "John",
+            "lastName": "Doe",
+            "age": 21
+        }) == %* {
+            "type": "object",
+            "properties": {
+                "firstName": {"type": "string"},
+                "lastName": {"type": "string"},
+                "age": {"type": "integer"}
+            }
+        }
