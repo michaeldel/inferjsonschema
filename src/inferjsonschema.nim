@@ -10,6 +10,7 @@ proc infer*(data: JsonNode): JsonNode =
             of JNull: %* {"type": "null"}
             of JBool: %* {"type": "boolean"}
             of JInt: %* {"type": "integer"}
+            of JFloat: %* {"type": "float"}
             of JString: %* {"type": "string"}
             else: %* {}
 

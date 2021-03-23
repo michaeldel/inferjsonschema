@@ -19,6 +19,11 @@ suite "schema inference":
         check infer(%* {"foo": 1}) == %* {"foo": {"type": "integer"}}
         check infer(%* {"foo": -1}) == %* {"foo": {"type": "integer"}}
 
+    test "float field":
+        check infer(%* {"foo": 0.0}) == %* {"foo": {"type": "float"}}
+        check infer(%* {"foo": 1.0}) == %* {"foo": {"type": "float"}}
+        check infer(%* {"foo": -1.0}) == %* {"foo": {"type": "float"}}
+
     test "string field":
         check infer(%* {"foo": ""}) == %* {"foo": {"type": "string"}}
         check infer(%* {"foo": "bar"}) == %* {"foo": {"type": "string"}}
