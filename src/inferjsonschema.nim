@@ -7,6 +7,7 @@ proc infer*(data: JsonNode): JsonNode =
 
     for key, value in data.pairs():
         result[key] = case value.kind:
+            of JInt: %* {"type": "integer"}
             of JString: %* {"type": "string"}
             else: %* {}
 
