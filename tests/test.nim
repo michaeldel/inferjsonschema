@@ -54,3 +54,14 @@ suite "object inference":
                 "age": {"type": "integer"}
             }
         }
+
+    test "geo coordinates":
+        check infer(%* {"latitude": 48.858093, "longitude": 2.294694}) == %* {
+            "type": "object",
+            "properties": {
+                "latitude": {"type": "float"},
+                "longitude": {"type": "float"}
+            }
+        }
+
+
