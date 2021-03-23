@@ -1,4 +1,10 @@
 inferjsonschema
+
 !inferjsonschema?*
 !inferjsonschema/**
+
+tests/test
+
+!tests/test?*
+!tests/test/**
 
