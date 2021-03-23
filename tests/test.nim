@@ -7,6 +7,9 @@ suite "schema inference":
     test "blank JSON object":
         check infer(parseJson "{}") == parseJson "{}"
 
+    test "null field":
+        check infer(%* {"foo": nil}) == %* {"foo": {"type": "null"}}
+
     test "bool field":
         check infer(%* {"foo": true}) == %* {"foo": {"type": "boolean"}}
         check infer(%* {"foo": false}) == %* {"foo": {"type": "boolean"}}
