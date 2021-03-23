@@ -1,4 +1,5 @@
 import json
+import os
 
 proc infer*(node: JsonNode): JsonNode =
     result = %* {}
@@ -18,5 +19,6 @@ proc infer*(node: JsonNode): JsonNode =
             result["properties"][key] = infer value
 
 when isMainModule:
-  echo("Hello, World!")
+    doAssert paramCount() == 1
+    echo paramStr(1).parseFile().infer().pretty()
 
