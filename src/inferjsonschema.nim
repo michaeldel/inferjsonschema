@@ -1,7 +1,15 @@
 import json
 
 proc infer*(data: JsonNode): JsonNode =
-    parseJson("{}")
+    assert data.kind == JObject
+
+    result = %* {}
+
+    for key, value in data.pairs():
+        result[key] = case value.kind:
+            of JString: %* {"type": "string"}
+            else: %* {}
 
 when isMainModule:
   echo("Hello, World!")
+
