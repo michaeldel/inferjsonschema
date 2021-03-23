@@ -12,6 +12,11 @@ proc infer*(node: JsonNode): JsonNode =
         of JObject: %* "object"
         of JArray: %* "array"
 
+    if node.kind == JObject and node.len != 0:
+        result["properties"] = %* {}
+        for key, value in node.pairs:
+            result["properties"][key] = infer value
+
 when isMainModule:
   echo("Hello, World!")
 

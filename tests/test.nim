@@ -31,3 +31,12 @@ suite "field type inference":
     test "empty array field":
         check infer(%* []) == %* {"type": "array"}
 
+suite "object inference":
+    test "2D point":
+        check infer(%* {"x": 0.0, "y": 0.0}) == %* {
+            "type": "object",
+            "properties": {
+                "x": {"type": "float"},
+                "y": {"type": "float"}
+            }
+        }
