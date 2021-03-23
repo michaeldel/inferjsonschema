@@ -1,6 +1,9 @@
+import json
 import unittest
 
-suite "example test suite":
-    test "addition":
-        check 1 + 2 == 3
+import inferjsonschema
+
+suite "schema inference":
+    test "blank JSON object":
+        check infer(parseJson "{}") == parseJson "{}"
 
