@@ -3,28 +3,31 @@ import unittest
 
 import inferjsonschema
 
-suite "schema inference":
+suite "field type inference":
     test "blank JSON object":
-        check infer(parseJson "{}") == parseJson "{}"
+        check infer(%* {}) == %* {"type": "object"}
 
     test "null field":
-        check infer(%* {"foo": nil}) == %* {"foo": {"type": "null"}}
+        check infer(%* nil) == %* {"type": "null"}
 
     test "bool field":
-        check infer(%* {"foo": true}) == %* {"foo": {"type": "boolean"}}
-        check infer(%* {"foo": false}) == %* {"foo": {"type": "boolean"}}
+        check infer(%* true) == %* {"type": "boolean"}
+        check infer(%* false) == %* {"type": "boolean"}
 
     test "integer field":
-        check infer(%* {"foo": 0}) == %* {"foo": {"type": "integer"}}
-        check infer(%* {"foo": 1}) == %* {"foo": {"type": "integer"}}
-        check infer(%* {"foo": -1}) == %* {"foo": {"type": "integer"}}
+        check infer(%* 0) == %* {"type": "integer"}
+        check infer(%* 1) == %* {"type": "integer"}
+        check infer(%* -1) == %* {"type": "integer"}
 
     test "float field":
-        check infer(%* {"foo": 0.0}) == %* {"foo": {"type": "float"}}
-        check infer(%* {"foo": 1.0}) == %* {"foo": {"type": "float"}}
-        check infer(%* {"foo": -1.0}) == %* {"foo": {"type": "float"}}
+        check infer(%* 0.0) == %* {"type": "float"}
+        check infer(%* 1.0) == %* {"type": "float"}
+        check infer(%* -1.0) == %* {"type": "float"}
 
     test "string field":
-        check infer(%* {"foo": ""}) == %* {"foo": {"type": "string"}}
-        check infer(%* {"foo": "bar"}) == %* {"foo": {"type": "string"}}
+        check infer(%* "") == %* {"type": "string"}
+        check infer(%* "bar") == %* {"type": "string"}
+
+    test "empty array field":
+        check infer(%* []) == %* {"type": "array"}
 

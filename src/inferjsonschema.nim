@@ -1,18 +1,16 @@
 import json
 
-proc infer*(data: JsonNode): JsonNode =
-    assert data.kind == JObject
-
+proc infer*(node: JsonNode): JsonNode =
     result = %* {}
 
-    for key, value in data.pairs():
-        result[key] = case value.kind:
-            of JNull: %* {"type": "null"}
-            of JBool: %* {"type": "boolean"}
-            of JInt: %* {"type": "integer"}
-            of JFloat: %* {"type": "float"}
-            of JString: %* {"type": "string"}
-            else: %* {}
+    result["type"] = case node.kind:
+        of JNull: %* "null"
+        of JBool: %* "boolean"
+        of JInt: %* "integer"
+        of JFloat: %* "float"
+        of JString: %* "string"
+        of JObject: %* "object"
+        of JArray: %* "array"
 
 when isMainModule:
   echo("Hello, World!")
