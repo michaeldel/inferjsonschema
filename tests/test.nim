@@ -64,4 +64,27 @@ suite "object inference":
             }
         }
 
+    test "array of things":
+        check infer(%* {
+            "fruits": [ "apple", "orange", "pear" ],
+            "vegetables": [{
+                "veggieName": "potato",
+                "veggieLike": true
+            }, {
+              "veggieName": "broccoli",
+              "veggieLike": false
+            }]
+        }) == %* {
+            "type": "object",
+            "properties": {
+                "fruits": {"type": "array", "items": {"type": "string"}},
+                "vegetables": {"type": "array", "items": {
+                    "type": "object",
+                    "properties": {
+                        "veggieName": {"type": "string"},
+                        "veggieLike": {"type": "boolean"}
+                    }
+                }}
+            }
+        }
 

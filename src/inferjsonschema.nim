@@ -17,6 +17,18 @@ proc infer*(node: JsonNode): JsonNode =
         result["properties"] = %* {}
         for key, value in node.pairs:
             result["properties"][key] = infer value
+    elif node.kind == JArray and node.len != 0:
+        result["items"] = %* {}
+
+        var last: JsonNode
+        for item in node.items:
+            let current = infer item
+
+            # TODO: properly handle
+            if last != nil: doAssert current == last
+            last = current
+
+        result["items"] = last
 
 when isMainModule:
     doAssert paramCount() == 1
