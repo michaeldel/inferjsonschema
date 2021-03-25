@@ -31,6 +31,29 @@ suite "field type inference":
     test "empty array field":
         check infer(%* []) == %* {"type": "array"}
 
+suite "array items":
+    test "single type":
+        check infer(%* [0]) == %* {
+            "type": "array", "items": {"type": "integer"}
+        }
+        check infer(%* [1, 2, 3]) == %* {
+            "type": "array", "items": {"type": "integer"}
+        }
+        check infer(%* [nil, nil, nil]) == %* {
+            "type": "array", "items": {"type": "null"}
+        }
+        check infer(%* [false, true]) == %* {
+            "type": "array", "items": {"type": "boolean"}
+        }
+
+    test "multiple types":
+        check infer(%* [0, true]) == %* {
+            "type": "array", "items": {"oneOf": [
+                {"type": "boolean"},
+                {"type": "integer"}
+            ]}
+        }
+
 suite "object inference":
     test "2D point":
         check infer(%* {"x": 0.0, "y": 0.0}) == %* {

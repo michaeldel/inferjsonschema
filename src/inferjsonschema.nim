@@ -1,5 +1,7 @@
 import json
 import os
+import sequtils
+import sets
 
 proc infer*(node: JsonNode): JsonNode =
     result = %* {}
@@ -18,17 +20,13 @@ proc infer*(node: JsonNode): JsonNode =
         for key, value in node.pairs:
             result["properties"][key] = infer value
     elif node.kind == JArray and node.len != 0:
-        result["items"] = %* {}
+        let schemas = node.elems.map(infer).toHashSet
+        assert schemas.len != 0
 
-        var last: JsonNode
-        for item in node.items:
-            let current = infer item
-
-            # TODO: properly handle
-            if last != nil: doAssert current == last
-            last = current
-
-        result["items"] = last
+        if schemas.len == 1:
+            result["items"] = schemas.toSeq[0]
+        else:
+            result["items"] = %* {"oneOf": toSeq schemas}
 
 when isMainModule:
     doAssert paramCount() == 1
